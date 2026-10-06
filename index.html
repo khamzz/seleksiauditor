@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kompetensi Auditor Investigatif</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F3F5F3; --surface:#FFFFFF; --ink:#17262B; --muted:#5A6A6F; --line:#D3DCD9;
+  --primary:#0E5A57; --primary-ink:#FFFFFF; --soft:#DDEBE9;
+  --ok:#2B7A4B; --warn:#A8701A; --crit:#B03A3A;
+  --ok-bg:#DCF0E3; --warn-bg:#F6E8CB; --crit-bg:#F6DADA;
+  --serif:"Newsreader",Georgia,"Times New Roman",serif;
+  --sans:"Instrument Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1819; --surface:#162325; --ink:#E5EEEC; --muted:#92A4A2; --line:#2A3B3D;
+    --primary:#5CB8B2; --primary-ink:#0B1617; --soft:#1B3A3A;
+    --ok:#6CC38F; --warn:#E0B055; --crit:#EA8486;
+    --ok-bg:#183425; --warn-bg:#3A2E15; --crit-bg:#3C1E1F;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1819; --surface:#162325; --ink:#E5EEEC; --muted:#92A4A2; --line:#2A3B3D;
+  --primary:#5CB8B2; --primary-ink:#0B1617; --soft:#1B3A3A;
+  --ok:#6CC38F; --warn:#E0B055; --crit:#EA8486;
+  --ok-bg:#183425; --warn-bg:#3A2E15; --crit-bg:#3C1E1F;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font:15px/1.5 var(--sans);-webkit-text-size-adjust:100%}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+.wrap{max-width:1080px;margin:0 auto;padding:20px 16px 56px}
+header.top{padding:8px 0 0}
+h1{font:600 28px/1.15 var(--serif);margin:0 0 4px;letter-spacing:-.01em}
+.sub{color:var(--muted);margin:0 0 16px}
+nav.tabs{display:flex;gap:2px;border-bottom:1px solid var(--line);overflow-x:auto;margin-bottom:20px;scrollbar-width:none}
+nav.tabs::-webkit-scrollbar{display:none}
+nav.tabs button{background:none;border:0;padding:10px 14px;cursor:pointer;color:var(--muted);white-space:nowrap;border-bottom:2px solid transparent;margin-bottom:-1px;font-weight:500}
+nav.tabs button[aria-current="page"]{color:var(--primary);border-bottom-color:var(--primary);font-weight:600}
+h2{font:600 22px/1.2 var(--serif);margin:0 0 12px}
+h3{font:600 17px/1.3 var(--serif);margin:0}
+.btn{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:7px 12px;cursor:pointer;font-weight:500}
+.btn:hover{border-color:var(--primary)}
+.btn.pri{background:var(--primary);color:var(--primary-ink);border-color:var(--primary)}
+.btn.danger{color:var(--crit)}
+.btn.armed{background:var(--crit);color:#fff;border-color:var(--crit)}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:16px}
+.toolbar select{flex:1 1 240px;max-width:420px}
+select,input[type=text],input[type=date],input[type=number],textarea{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:7px 10px;width:100%}
+label.f{display:block;font-size:13px;color:var(--muted)}
+label.f>span{display:block;margin-bottom:3px}
+.fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px;margin-bottom:20px}
+
+/* summary */
+.summary{display:grid;grid-template-columns:minmax(220px,300px) 1fr;gap:0;background:var(--surface);border:1px solid var(--line);border-radius:8px;margin-bottom:24px;overflow:hidden}
+.sum-main{padding:18px;background:var(--soft);display:flex;flex-direction:column;gap:6px;justify-content:center}
+.sum-main .big{font:600 44px/1 var(--serif);letter-spacing:-.02em}
+.sum-main .lbl{color:var(--muted);font-size:13px}
+.verdict{display:inline-block;font-weight:600;padding:3px 10px;border-radius:99px;width:max-content;font-size:13px}
+.v-ok{background:var(--ok-bg);color:var(--ok)}.v-warn{background:var(--warn-bg);color:var(--warn)}.v-crit{background:var(--crit-bg);color:var(--crit)}.v-none{background:var(--line);color:var(--muted)}
+.sum-cats{padding:14px 18px;display:grid;gap:12px;align-content:center}
+.catrow{display:grid;grid-template-columns:150px 1fr 120px;gap:12px;align-items:center;font-size:13px}
+.catrow .nums{text-align:right;color:var(--muted);font-variant-numeric:tabular-nums}
+
+/* gap strip */
+.strip{position:relative;height:10px;background:var(--line);border-radius:5px}
+.strip .fill{position:absolute;left:0;top:0;bottom:0;border-radius:5px;background:var(--muted)}
+.strip .fill.ok{background:var(--ok)}.strip .fill.warn{background:var(--warn)}.strip .fill.crit{background:var(--crit)}
+.strip .tick{position:absolute;top:-5px;width:3px;height:20px;margin-left:-1.5px;background:var(--ink);border-radius:1px}
+
+/* competency rows */
+.catblock{margin-bottom:26px}
+.cathead{display:flex;justify-content:space-between;align-items:baseline;gap:12px;border-bottom:2px solid var(--primary);padding-bottom:6px;margin-bottom:4px;flex-wrap:wrap}
+.cathead small{color:var(--muted)}
+.row{display:grid;grid-template-columns:1fr minmax(280px,360px);gap:8px 24px;padding:14px 0;border-bottom:1px solid var(--line)}
+.rhead{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.code{font-weight:600;color:var(--primary);min-width:26px}
+.row h4{margin:0;font-size:15px;font-weight:600}
+.ind{margin:4px 0 0 34px;color:var(--muted);font-size:13px;max-width:62ch}
+.ctrl{display:grid;gap:10px;align-content:start;padding-top:6px}
+.scores{display:flex;gap:6px}
+.sc{flex:1;min-width:0;height:36px;border:1px solid var(--line);background:var(--surface);border-radius:6px;cursor:pointer;font-weight:600;font-variant-numeric:tabular-nums}
+.sc:hover{border-color:var(--primary)}
+.sc.tg{border-style:dashed;border-color:var(--ink)}
+.sc.on{background:var(--primary);color:var(--primary-ink);border-color:var(--primary);border-style:solid}
+.meta{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted);gap:8px}
+.chip{font-size:12px;font-weight:600;padding:2px 8px;border-radius:99px}
+.chip.ok{background:var(--ok-bg);color:var(--ok)}.chip.warn{background:var(--warn-bg);color:var(--warn)}.chip.crit{background:var(--crit-bg);color:var(--crit)}
+.plan{grid-column:1/-1;margin-left:34px}
+.plan textarea{min-height:56px;resize:vertical}
+.legend{font-size:13px;color:var(--muted);margin:0 0 14px;display:flex;flex-wrap:wrap;gap:4px 18px;align-items:center}
+.legend .tk{display:inline-block;width:3px;height:14px;background:var(--ink);vertical-align:-3px;margin-right:5px}
+
+/* tables */
+.tw{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:8px}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:600;background:var(--soft);white-space:nowrap}
+tr:last-child td{border-bottom:0}
+td.n,th.n{text-align:center}
+td input[type=number]{width:64px;text-align:center;padding:5px}
+.linkbtn{background:none;border:0;padding:0;color:var(--primary);cursor:pointer;font-weight:600;text-align:left}
+.linkbtn:hover{text-decoration:underline}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:16px;margin-bottom:16px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px}
+.empty{text-align:center;padding:48px 16px;background:var(--surface);border:1px dashed var(--line);border-radius:8px}
+.empty p{color:var(--muted);margin:0 0 14px}
+.note{font-size:13px;color:var(--muted)}
+.warnline{color:var(--crit);font-weight:600;font-size:13px}
+textarea.mono{font:12px/1.4 ui-monospace,Menlo,Consolas,monospace;min-height:140px}
+.hrow{display:grid;grid-template-columns:150px 1fr 56px;gap:12px;align-items:center;padding:6px 0;font-size:14px}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:99px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s}
+.toast.show{opacity:1}
+@media (max-width:760px){
+  h1{font-size:24px}
+  .summary{grid-template-columns:1fr}
+  .catrow{grid-template-columns:1fr 100px;}
+  .catrow>span:first-child{grid-column:1/-1}
+  .row{grid-template-columns:1fr}
+  .ind,.plan{margin-left:0}
+  .hrow{grid-template-columns:1fr 56px}.hrow>span:first-child{grid-column:1/-1}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.hbar{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.syncbox{display:flex;align-items:center;gap:8px;padding-top:6px}
+.sync{font-size:12px;color:var(--muted);padding:3px 10px;border-radius:99px;background:var(--line)}
+.sync[data-k="saved"]{background:var(--ok-bg);color:var(--ok)}
+.sync[data-k="saving"],.sync[data-k="pending"]{background:var(--warn-bg);color:var(--warn)}
+.sync[data-k="error"]{background:var(--crit-bg);color:var(--crit)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="hbar">
+      <div>
+        <h1>Kompetensi Auditor Investigatif</h1>
+        <p class="sub">Asesmen kompetensi dan analisis gap per auditor terhadap target jenjang.</p>
+      </div>
+      <div class="syncbox"><span id="sync" class="sync" role="status"></span><button class="btn" id="logout" data-act="logout" hidden>Keluar</button></div>
+    </div>
+  </header>
+  <nav class="tabs" id="tabs" aria-label="Menu utama"></nav>
+  <main id="app"></main>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="config.js"></script>
+<script>
+"use strict";
+const JENJANG = ["Auditor Pertama","Auditor Muda","Auditor Madya","Auditor Utama"];
+const CATS = ["Kompetensi Dasar","Pengetahuan Teknis","Keterampilan Teknis","Perilaku"];
+const DEF_WEIGHTS = {"Kompetensi Dasar":25,"Pengetahuan Teknis":25,"Keterampilan Teknis":35,"Perilaku":15};
+const SKALA = ["Belum kompeten","Perlu pengembangan","Kompeten","Sangat kompeten","Ahli / rujukan"];
+const K_DEFAULT = [
+["D1",0,"Integritas dan etika","Menaati kode etik APIP dan ASN; membuat pernyataan bebas benturan kepentingan per penugasan; menjaga kerahasiaan informasi serta identitas pelapor/saksi.",[3,4,4,5]],
+["D2",0,"Independensi dan objektivitas","Independen dalam pikiran dan penampilan; tidak terpengaruh tekanan pihak yang diperiksa maupun pimpinan unit.",[3,4,4,5]],
+["D3",0,"Kehati-hatian profesional dan skeptisisme","Menerapkan due professional care dan skeptisisme profesional; menjunjung asas praduga tak bersalah.",[3,3,4,5]],
+["D4",0,"Pemahaman tata kelola","Memahami SPIP, manajemen risiko, tata kelola, peran APIP, dan regulasi sektor ketenagakerjaan objek penugasan.",[2,3,4,5]],
+["P1",1,"Peraturan tipikor, kerugian negara, TP/TGR","Memahami peraturan tindak pidana korupsi, kerugian keuangan negara, dan mekanisme penyelesaian TP/TGR.",[2,3,4,5]],
+["P2",1,"Hukum disiplin ASN","Memahami PP 94/2021 dan mekanisme penjatuhan hukuman disiplin.",[2,3,4,5]],
+["P3",1,"Hukum acara pidana dasar dan kewenangan APIP","Memahami alat bukti, hukum acara pidana dasar, dan batas kewenangan APIP dibanding aparat penegak hukum.",[2,3,4,5]],
+["P4",1,"Pengadaan, keuangan, dan BMN","Memahami pengadaan barang/jasa (Perpres 16/2018 dan perubahannya, swakelola, pedoman LKPP), pengelolaan keuangan, dan BMN.",[2,3,4,4]],
+["P5",1,"Skema dan pola fraud","Memahami fraud tree ACFE: korupsi, penyalahgunaan aset, kecurangan laporan.",[2,3,4,5]],
+["P6",1,"WBS, gratifikasi, benturan kepentingan","Memahami kerangka whistleblowing system, pengendalian gratifikasi, dan manajemen benturan kepentingan (KPK).",[2,3,4,4]],
+["P7",1,"Standar audit APIP dan pedoman investigasi","Memahami SAIPI/AAIPI dan pedoman audit investigatif BPKP.",[2,3,4,5]],
+["K1",2,"Intake dan triage pengaduan","Menelaah pengaduan/informasi awal dan menentukan layak tidaknya ditindaklanjuti.",[2,3,4,5]],
+["K2",2,"Hipotesis dan program audit investigatif","Menyusun hipotesis dan program audit investigatif yang terarah.",[1,3,4,5]],
+["K3",2,"Pengumpulan bukti dan chain of custody","Mengumpulkan, mengamankan, dan menjaga chain of custody bukti, termasuk bukti elektronik.",[2,3,4,5]],
+["K4",2,"Wawancara dan permintaan keterangan","Menguasai teknik wawancara saksi, terlapor, dan ahli; menyusun berita acara.",[2,3,4,5]],
+["K5",2,"Analisis dokumen, aliran dana, dan data","Melakukan analisis dokumen, analisis aliran dana, pencocokan data, dan data analytics.",[2,3,4,4]],
+["K6",2,"Penghitungan kerugian negara","Menghitung indikasi kerugian negara secara wajar dan didukung bukti.",[1,2,4,5]],
+["K7",2,"Kertas kerja dan laporan hasil investigasi","Menyusun kertas kerja dan laporan yang objektif, lengkap, dan dapat dipertanggungjawabkan.",[2,3,4,5]],
+["K8",2,"Komunikasi hasil, rekomendasi, dan tindak lanjut","Menyampaikan hasil kepada pimpinan, memberi rekomendasi, memantau tindak lanjut, dan berkoordinasi dengan APH.",[1,2,3,5]],
+["B1",3,"Tahan tekanan dan berani","Tahan tekanan dan berani menyampaikan temuan.",[2,3,4,5]],
+["B2",3,"Teliti, sistematis, berpikir kritis","Bekerja teliti dan sistematis serta berpikir kritis.",[3,3,4,4]],
+["B3",3,"Komunikasi persuasif dan tegas","Berkomunikasi persuasif namun tegas dalam situasi sensitif.",[2,3,4,5]],
+["B4",3,"Kerja sama tim dan koordinasi lintas instansi","Bekerja sama dalam tim dan berkoordinasi lintas instansi (BPKP, KPK, Kejaksaan, Kepolisian, BPK).",[3,3,4,4]],
+].map(r=>({kode:r[0],kat:CATS[r[1]],nama:r[2],ind:r[3],tg:r[4]}));
+let K = K_DEFAULT; // di mode Google Sheets, daftar ini diganti dengan isi lembar "Kompetensi"
+const JENJANG_INFO = [
+["Auditor Pertama","Anggota tim","Memahami prosedur dasar; mampu mengumpulkan bukti, membuat kertas kerja, dan membantu wawancara di bawah supervisi."],
+["Auditor Muda","Ketua tim kecil / anggota senior","Mampu menyusun program kerja, melakukan wawancara mandiri, menganalisis bukti, dan menyusun konsep laporan."],
+["Auditor Madya","Pengendali teknis / ketua tim","Mampu merancang strategi investigasi kasus kompleks, menghitung kerugian negara, mereviu kualitas kertas kerja, dan membimbing tim."],
+["Auditor Utama","Penanggung jawab / penjamin mutu","Mampu mengambil keputusan strategis dan mengelola kasus sensitif atau berisiko tinggi; menyusun kebijakan dan metodologi; menjadi rujukan teknis, termasuk saat berkoordinasi dengan APH."],
+];
+const SYARAT = [
+["Pendidikan","Minimal S1, disarankan bidang hukum, akuntansi, manajemen, atau administrasi publik."],
+["Pengalaman","Pengalaman audit (reguler atau kinerja) sebagai prasyarat sebelum terlibat penuh dalam penugasan investigatif; jumlah tahun/penugasan disesuaikan per jenjang."],
+["Sertifikasi","Sertifikasi jabatan fungsional auditor, QIA/QIA-APIP (AAIPI), CFE (ACFE), CRMP, dan sertifikasi kompetensi BNSP bidang audit/investigasi."],
+["Pengembangan berkelanjutan","Pelatihan teknis tiap tahun sesuai ketentuan PPL auditor: teknik investigasi, forensik digital, dan kerugian negara."],
+];
+const METODE = [
+["Asesmen kompetensi","Uji tertulis, wawancara kompetensi, studi kasus atau simulasi."],
+["Penilaian kinerja","Kualitas kertas kerja, ketepatan waktu, kualitas laporan (reviu pengendali mutu)."],
+["Penilaian perilaku","Umpan balik 360 derajat, kepatuhan etika, rekam jejak independensi."],
+["Evaluasi pascapenugasan","Hasil tindak lanjut dan kepatuhan prosedur."],
+];
+
+/* ---------- state & storage ---------- */
+const CFG = window.APP_CONFIG || {};
+const REMOTE = !!(CFG.API_URL && String(CFG.API_URL).trim());   // true = data disimpan di Google Sheets
+const KEY = "kompetensi-auditor-investigatif-v1";                // kunci penyimpanan lokal (mode tanpa Sheets)
+const TK = "kai-token";
+const today = () => new Date().toISOString().slice(0,10);
+const uid = () => "a"+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const targetsFrom = list => {const t={};list.forEach(k=>t[k.kode]=k.tg.slice());return t};
+const defaultTargets = () => targetsFrom(K_DEFAULT);
+function seed(){
+  const ex=[4,4,3,3, 3,3,2,3,3,3,3, 3,3,2,3,3,2,3,2, 4,3,3,4], sc={};
+  K.forEach((k,i)=>sc[k.kode]=ex[i]);
+  return {targets:defaultTargets(),weights:{...DEF_WEIGHTS},selected:null,
+    auditors:[{id:uid(),nama:"Contoh Auditor A (data contoh)",nip:"",unit:"",jenjang:"Auditor Muda",tanggal:today(),penilai:"",scores:sc,plans:{}}]};
+}
+let S={targets:targetsFrom(K),weights:{...DEF_WEIGHTS},selected:null,auditors:[]};
+function loadLocal(){
+  try{
+    const raw=localStorage.getItem(KEY);
+    if(raw){const d=JSON.parse(raw); if(d&&Array.isArray(d.auditors)) return normalize(d);}
+  }catch(e){}
+  const s=seed(); s.selected=s.auditors[0].id; return s;
+}
+function normalize(d){
+  const t=targetsFrom(K);
+  if(d.targets) K.forEach(k=>{const a=d.targets[k.kode]; if(Array.isArray(a)&&a.length===4&&a.every(n=>n>=1&&n<=5)) t[k.kode]=a.slice()});
+  const w={...DEF_WEIGHTS};
+  if(d.weights) CATS.forEach(c=>{const n=Number(d.weights[c]); if(isFinite(n)&&n>=0) w[c]=n});
+  const auditors=d.auditors.map(a=>({id:a.id||uid(),nama:a.nama||"",nip:a.nip||"",unit:a.unit||"",
+    jenjang:JENJANG.includes(a.jenjang)?a.jenjang:JENJANG[1],tanggal:a.tanggal||today(),penilai:a.penilai||"",
+    scores:a.scores&&typeof a.scores==="object"?a.scores:{},plans:a.plans&&typeof a.plans==="object"?a.plans:{}}));
+  const sel=auditors.some(a=>a.id===d.selected)?d.selected:(auditors[0]?auditors[0].id:null);
+  return {targets:t,weights:w,auditors,selected:sel};
+}
+let view="asesmen", armed=null;
+const cur=()=>S.auditors.find(a=>a.id===S.selected)||null;
+
+/* ---------- sinkronisasi ke Google Sheets ---------- */
+let TOKEN="", gate=REMOTE?"login":"ready", gateMsg="";
+const pending={};            // perubahan yang menunggu dikirim
+let timer=null, busy=false;
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+function persistLocal(){ if(!REMOTE){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}} }
+async function call(action,payload){
+  let res;
+  try{
+    res=await fetch(CFG.API_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({...(payload||{}),action,token:TOKEN})});
+  }catch(_){throw new Error("Tidak dapat terhubung ke server. Periksa koneksi internet dan URL di config.js.")}
+  if(!res.ok) throw new Error("Server menjawab kode "+res.status);
+  let d;
+  try{d=await res.json()}catch(_){throw new Error("Jawaban server tidak terbaca. Pastikan akses Apps Script diatur ke \"Siapa saja\" dan URL benar.")}
+  if(!d.ok){const e=new Error(d.error||"Gagal"); e.auth=d.code==="AUTH"; throw e}
+  return d;
+}
+function setStatus(kind,msg){
+  const el=document.getElementById("sync"); if(!el) return;
+  const T={local:"Mode lokal: data hanya di peramban ini",pending:"Ada perubahan, segera disimpan…",saving:"Menyimpan ke Google Sheets…",saved:"Tersimpan di Google Sheets",error:"Gagal menyimpan, mencoba lagi… "+(msg||"")};
+  el.textContent=T[kind]||""; el.dataset.k=kind;
+}
+function schedule(){setStatus("pending"); clearTimeout(timer); timer=setTimeout(flush,700)}
+async function flush(){
+  if(busy){schedule();return}
+  const keys=Object.keys(pending); if(!keys.length) return;
+  busy=true; setStatus("saving");
+  try{
+    for(const k of keys){
+      const p=pending[k]; delete pending[k];
+      try{
+        if(p.t==="a"){const a=S.auditors.find(x=>x.id===p.id); if(a) await call("saveAuditor",{auditor:a})}
+        else if(p.t==="d"){await call("deleteAuditor",{id:p.id})}
+        else if(p.t==="t"){await call("saveTargets",{targets:S.targets,weights:S.weights})}
+      }catch(e){pending[k]=p; throw e}
+    }
+    if(Object.keys(pending).length) schedule(); else setStatus("saved");
+  }catch(e){
+    if(e.auth){logout("Kata sandi ditolak server. Masuk kembali.");return}
+    setStatus("error",e.message); clearTimeout(timer); timer=setTimeout(flush,8000);
+  }finally{busy=false}
+}
+function markA(id){persistLocal(); if(REMOTE){pending["a:"+id]={t:"a",id}; schedule()}}
+function markT(){persistLocal(); if(REMOTE){pending.t={t:"t"}; schedule()}}
+function markDel(id){persistLocal(); if(REMOTE){delete pending["a:"+id]; pending["d:"+id]={t:"d",id}; schedule()}}
+async function markReplace(){
+  persistLocal(); if(!REMOTE) return;
+  clearTimeout(timer);
+  while(busy) await sleep(150);
+  Object.keys(pending).forEach(k=>delete pending[k]);
+  busy=true; setStatus("saving");
+  try{await call("replaceAll",{auditors:S.auditors,targets:S.targets,weights:S.weights}); setStatus("saved")}
+  catch(e){setStatus("error",e.message); toast("Gagal menyimpan ke Google Sheets: "+e.message)}
+  finally{busy=false}
+}
+function applyRemote(d){
+  K=(d.kompetensi&&d.kompetensi.length?d.kompetensi:K_DEFAULT).map(k=>({kode:k.kode,kat:k.kat,nama:k.nama,ind:k.ind,tg:k.tg.slice()}));
+  S=normalize({auditors:d.auditors||[],weights:d.weights});
+}
+async function boot(){
+  if(!REMOTE){S=loadLocal(); gate="ready"; render(); setStatus("local"); return}
+  TOKEN=sessionStorage.getItem(TK)||"";
+  if(!TOKEN){gate="login"; render(); return}
+  gate="loading"; render();
+  try{const d=await call("load"); applyRemote(d); gate="ready"; render(); setStatus("saved")}
+  catch(e){
+    if(e.auth){logout("Kata sandi salah.")}
+    else{gate="error"; gateMsg=e.message; render()}
+  }
+}
+async function login(){
+  const v=document.getElementById("pw").value;
+  if(!v){gateMsg="Isi kata sandi terlebih dahulu."; render(); return}
+  TOKEN=v; sessionStorage.setItem(TK,v); gateMsg=""; await boot();
+}
+function logout(msg){
+  sessionStorage.removeItem(TK); TOKEN=""; gate="login"; gateMsg=msg||"";
+  S={targets:targetsFrom(K_DEFAULT),weights:{...DEF_WEIGHTS},selected:null,auditors:[]};
+  K=K_DEFAULT; render();
+}
+window.addEventListener("beforeunload",e=>{if(REMOTE&&(busy||Object.keys(pending).length)){e.preventDefault();e.returnValue=""}});
+
+/* ---------- helpers ---------- */
+const $=s=>document.querySelector(s);
+const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const sum=a=>a.reduce((x,y)=>x+y,0);
+const f1=n=>n==null?"–":n.toLocaleString("id-ID",{minimumFractionDigits:1,maximumFractionDigits:1});
+const pct=n=>n==null?"–":Math.round(n*100)+"%";
+function toast(msg){const t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove("show"),2200)}
+function statusOf(score,target){
+  if(!score) return null;
+  const d=score-target;
+  if(d>=0) return {c:"ok",t:"Memenuhi"};
+  if(d===-1) return {c:"warn",t:"Perlu pengembangan"};
+  return {c:"crit",t:"Gap kritis"};
+}
+function compute(a){
+  const ji=JENJANG.indexOf(a.jenjang);
+  const cats=CATS.map(cat=>{
+    const items=K.filter(k=>k.kat===cat);
+    const sc=items.filter(k=>a.scores[k.kode]>0);
+    const avgA=sc.length?sum(sc.map(k=>a.scores[k.kode]))/sc.length:null;
+    const avgT=sc.length?sum(sc.map(k=>S.targets[k.kode][ji]))/sc.length:null;
+    const gaps=sc.filter(k=>a.scores[k.kode]<S.targets[k.kode][ji]).length;
+    return {cat,n:items.length,filled:sc.length,avgA,avgT,gaps,w:S.weights[cat]};
+  });
+  let wa=0,wt=0;
+  cats.forEach(c=>{if(c.avgA!=null){wa+=c.w*c.avgA;wt+=c.w*c.avgT}});
+  const cap=wt>0?wa/wt:null;
+  const filled=sum(cats.map(c=>c.filled)), gaps=sum(cats.map(c=>c.gaps));
+  let v={c:"none",t:"Belum dinilai"};
+  if(cap!=null) v=cap>=1?{c:"ok",t:"Memenuhi jenjang"}:cap>=0.85?{c:"warn",t:"Mendekati target"}:{c:"crit",t:"Perlu pengembangan intensif"};
+  return {cats,cap,filled,gaps,verdict:v,total:K.length};
+}
+const strip=(val,target,cls)=>`<div class="strip" role="img" aria-label="Nilai ${f1(val)} dari 5, target ${f1(target)}"><div class="fill ${cls||""}" style="width:${Math.max(0,Math.min(100,(val||0)/5*100))}%"></div><div class="tick" style="left:${target/5*100}%" title="Target ${f1(target)}"></div></div>`;
+
+/* ---------- views ---------- */
+function vAsesmen(){
+  const a=cur();
+  if(!a) return `<div class="empty"><p>Belum ada auditor. Tambahkan auditor untuk mulai menilai kompetensinya.</p><button class="btn pri" data-act="add">Tambah auditor</button></div>`;
+  const ji=JENJANG.indexOf(a.jenjang), c=compute(a);
+  const opts=S.auditors.map(x=>`<option value="${x.id}" ${x.id===a.id?"selected":""}>${esc(x.nama||"(tanpa nama)")} (${esc(x.jenjang)})</option>`).join("");
+  let h=`<div class="toolbar">
+    <select id="sel" aria-label="Pilih auditor">${opts}</select>
+    <button class="btn pri" data-act="add">Tambah auditor</button>
+    <button class="btn danger ${armed==="del"+a.id?"armed":""}" data-act="del" data-id="${a.id}">${armed==="del"+a.id?"Klik lagi untuk menghapus":"Hapus auditor"}</button>
+  </div>
+  <div class="fields">
+    <label class="f"><span>Nama auditor</span><input type="text" data-f="nama" value="${esc(a.nama)}"></label>
+    <label class="f"><span>NIP (opsional)</span><input type="text" data-f="nip" value="${esc(a.nip)}"></label>
+    <label class="f"><span>Unit kerja</span><input type="text" data-f="unit" value="${esc(a.unit)}"></label>
+    <label class="f"><span>Jenjang</span><select data-f="jenjang">${JENJANG.map(j=>`<option ${j===a.jenjang?"selected":""}>${j}</option>`).join("")}</select></label>
+    <label class="f"><span>Tanggal asesmen</span><input type="date" data-f="tanggal" value="${esc(a.tanggal)}"></label>
+    <label class="f"><span>Penilai</span><input type="text" data-f="penilai" value="${esc(a.penilai)}"></label>
+  </div>
+  <section class="summary" aria-label="Ringkasan hasil">
+    <div class="sum-main">
+      <span class="lbl">Capaian terhadap target ${esc(a.jenjang)}</span>
+      <span class="big">${pct(c.cap)}</span>
+      <span class="verdict v-${c.verdict.c}">${c.verdict.t}</span>
+      <span class="lbl">${c.filled} dari ${c.total} kompetensi dinilai · ${c.gaps} di bawah target</span>
+    </div>
+    <div class="sum-cats">${c.cats.map(x=>`<div class="catrow"><span>${x.cat}</span>${strip(x.avgA,x.avgT||0,x.avgA==null?"":(x.avgA>=x.avgT?"ok":x.avgA>=x.avgT-1?"warn":"crit"))}<span class="nums">${f1(x.avgA)} / target ${f1(x.avgT)}</span></div>`).join("")}
+      ${c.filled<c.total&&c.filled>0?`<span class="note">Hasil sementara: capaian dihitung dari kompetensi yang sudah dinilai.</span>`:""}</div>
+  </section>
+  <p class="legend"><span><i class="tk"></i>Garis = target jenjang</span><span>Kotak putus-putus = nilai target</span><span>${SKALA.map((s,i)=>`${i+1} ${s}`).join(" · ")}</span></p>`;
+  CATS.forEach((cat,ci)=>{
+    const cc=c.cats[ci];
+    h+=`<section class="catblock"><div class="cathead"><h3>${cat}</h3><small>${cc.filled}/${cc.n} dinilai · rata-rata ${f1(cc.avgA)} dari target ${f1(cc.avgT)}</small></div>`;
+    K.filter(k=>k.kat===cat).forEach(k=>{
+      const t=S.targets[k.kode][ji], v=a.scores[k.kode]||0, st=statusOf(v,t);
+      h+=`<article class="row"><div><div class="rhead"><span class="code">${k.kode}</span><h4>${esc(k.nama)}</h4></div><p class="ind">${esc(k.ind)}</p></div>
+        <div class="ctrl">${strip(v,t,st?st.c:"")}
+          <div class="scores" role="group" aria-label="Nilai ${esc(k.nama)}">${[1,2,3,4,5].map(n=>`<button class="sc ${v===n?"on":""} ${t===n?"tg":""}" data-act="score" data-k="${k.kode}" data-n="${n}" aria-pressed="${v===n}">${n}</button>`).join("")}</div>
+          <div class="meta"><span>Target ${t}${v?` · nilai ${v}`:""}</span>${st?`<span class="chip ${st.c}">${st.t}</span>`:`<span>Belum dinilai</span>`}</div>
+        </div>
+        ${st&&st.c!=="ok"?`<div class="plan"><label class="f"><span>Rencana pengembangan ${k.kode}</span><textarea data-plan="${k.kode}" placeholder="Contoh: pelatihan teknik wawancara, pendampingan pada penugasan berikutnya">${esc(a.plans[k.kode]||"")}</textarea></label></div>`:""}
+      </article>`;
+    });
+    h+=`</section>`;
+  });
+  return h;
+}
+
+function vRekap(){
+  if(!S.auditors.length) return `<div class="empty"><p>Belum ada data auditor untuk direkap.</p><button class="btn pri" data-act="add">Tambah auditor</button></div>`;
+  const rows=S.auditors.map(a=>({a,c:compute(a)}));
+  let h=`<h2>Rekap seluruh auditor</h2><div class="tw"><table><thead><tr><th>Auditor</th><th>Jenjang</th><th class="n">Dinilai</th><th>Capaian</th><th>Kesimpulan</th><th class="n">Di bawah target</th></tr></thead><tbody>`;
+  rows.forEach(({a,c})=>{
+    h+=`<tr><td><button class="linkbtn" data-act="open" data-id="${a.id}">${esc(a.nama||"(tanpa nama)")}</button><div class="note">${esc(a.unit)}</div></td><td>${esc(a.jenjang)}</td><td class="n">${c.filled}/${c.total}</td>
+    <td style="min-width:140px">${c.cap==null?"–":`<div style="display:flex;gap:8px;align-items:center"><div style="flex:1">${strip(Math.min(c.cap,1.2)*5/1.2,5/1.2,c.verdict.c)}</div><b>${pct(c.cap)}</b></div>`}</td>
+    <td><span class="verdict v-${c.verdict.c}">${c.verdict.t}</span></td><td class="n">${c.gaps}</td></tr>`;
+  });
+  h+=`</tbody></table></div>`;
+  const agg=K.map(k=>{
+    let n=0,g=0;
+    S.auditors.forEach(a=>{const v=a.scores[k.kode]; if(v>0){n++; if(v<S.targets[k.kode][JENJANG.indexOf(a.jenjang)]) g++}});
+    return {k,n,g};
+  }).filter(x=>x.g>0).sort((x,y)=>y.g/y.n-x.g/x.n||y.g-x.g).slice(0,8);
+  h+=`<h2 style="margin-top:28px">Kompetensi yang paling sering di bawah target</h2>`;
+  if(!agg.length) h+=`<p class="note">Belum ada kompetensi yang berada di bawah target.</p>`;
+  else{
+    h+=`<div class="card">`+agg.map(x=>`<div class="hrow"><span><b>${x.k.kode}</b> ${esc(x.k.nama)}</span><div class="strip"><div class="fill crit" style="width:${x.g/x.n*100}%"></div></div><span class="note">${x.g}/${x.n}</span></div>`).join("")+`</div><p class="note">Angka menunjukkan jumlah auditor di bawah target dibanding jumlah auditor yang sudah dinilai pada kompetensi tersebut. Dapat menjadi dasar prioritas pelatihan.</p>`;
+  }
+  return h;
+}
+
+function vMatriks(){
+  const ws=sum(CATS.map(c=>S.weights[c]));
+  let h=`<h2>Matriks target</h2><p class="note">Target nilai (1–5) tiap kompetensi per jenjang. Angka awal adalah usulan; sesuaikan dengan SOTK, pedoman internal Itjen, dan standar kompetensi terbaru. Perubahan tersimpan otomatis.</p>
+  <div class="card"><h3 style="margin-bottom:10px">Bobot kategori (%)</h3><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px">
+  ${CATS.map(c=>`<label class="f"><span>${c}</span><input type="number" min="0" max="100" step="1" data-w="${c}" value="${S.weights[c]}"></label>`).join("")}</div>
+  <p class="warnline" id="wsum">${ws!==100?`Total bobot ${ws}%, seharusnya 100%.`:""}</p></div>
+  <div class="tw"><table><thead><tr><th>Kode</th><th>Kompetensi</th>${JENJANG.map(j=>`<th class="n">${j.replace("Auditor ","")}</th>`).join("")}</tr></thead><tbody>`;
+  CATS.forEach(cat=>{
+    h+=`<tr><td colspan="6" style="background:var(--bg);font-weight:600">${cat}</td></tr>`;
+    K.filter(k=>k.kat===cat).forEach(k=>{
+      h+=`<tr><td><b>${k.kode}</b></td><td>${esc(k.nama)}</td>${S.targets[k.kode].map((t,j)=>`<td class="n"><input type="number" min="1" max="5" step="1" data-tk="${k.kode}" data-tj="${j}" value="${t}" aria-label="Target ${k.kode} ${JENJANG[j]}"></td>`).join("")}</tr>`;
+    });
+  });
+  h+=`</tbody></table></div><div class="toolbar" style="margin-top:14px"><button class="btn ${armed==="resetT"?"armed":""}" data-act="resetT">${armed==="resetT"?"Klik lagi untuk mengembalikan":"Kembalikan target dan bobot awal"}</button></div>`;
+  return h;
+}
+
+function vRujukan(){
+  return `<h2>Rujukan</h2><div class="grid2">
+  <div class="card"><h3 style="margin-bottom:10px">Jenjang</h3>${JENJANG_INFO.map(j=>`<p style="margin:0 0 12px"><b>${j[0]}</b> <span class="note">· ${j[1]}</span><br>${j[2]}</p>`).join("")}</div>
+  <div class="card"><h3 style="margin-bottom:10px">Persyaratan pendukung</h3>${SYARAT.map(j=>`<p style="margin:0 0 12px"><b>${j[0]}</b><br>${j[1]}</p>`).join("")}</div>
+  <div class="card"><h3 style="margin-bottom:10px">Metode penilaian</h3>${METODE.map(j=>`<p style="margin:0 0 12px"><b>${j[0]}</b><br>${j[1]}</p>`).join("")}</div>
+  <div class="card"><h3 style="margin-bottom:10px">Skala dan status</h3>${SKALA.map((s,i)=>`<p style="margin:0 0 4px"><b>${i+1}</b> ${s}</p>`).join("")}
+  <p class="note" style="margin-top:12px">Status per kompetensi: nilai sama dengan atau di atas target = Memenuhi; kurang 1 = Perlu pengembangan; kurang 2 atau lebih = Gap kritis.</p>
+  <p class="note">Capaian = (jumlah bobot × rata-rata nilai aktual) ÷ (jumlah bobot × rata-rata target). Kesimpulan: 100% ke atas = Memenuhi jenjang; 85–99% = Mendekati target; di bawah 85% = Perlu pengembangan intensif. Ambang ini adalah asumsi awal.</p></div></div>`;
+}
+
+function csvText(){
+  const q=v=>`"${String(v==null?"":v).replace(/"/g,'""')}"`;
+  const head=["Nama","NIP","Unit","Jenjang","Tanggal","Penilai","Dinilai","Capaian","Kesimpulan","Di bawah target",...K.map(k=>k.kode)];
+  const lines=[head.map(q).join(",")];
+  S.auditors.forEach(a=>{const c=compute(a);
+    lines.push([a.nama,a.nip,a.unit,a.jenjang,a.tanggal,a.penilai,c.filled+"/"+c.total,c.cap==null?"":Math.round(c.cap*100)+"%",c.verdict.t,c.gaps,...K.map(k=>a.scores[k.kode]||"")].map(q).join(","));
+  });
+  return lines.join("\n");
+}
+function vData(){
+  return `<h2>Data</h2>
+  ${REMOTE
+    ?`<p class="note">Data tersimpan di Google Sheets Anda dan otomatis dimuat di semua perangkat yang memakai alamat aplikasi ini.${CFG.SHEET_URL?` <a href="${esc(CFG.SHEET_URL)}" target="_blank" rel="noopener">Buka Google Sheets</a>.`:""} Cadangan di bawah tetap berguna sebagai arsip. Data penilaian bersifat sensitif; jangan membagikan kata sandi atau akses Sheets ke pihak yang tidak berwenang.</p>`
+    :`<p class="note">Mode lokal: data tersimpan di peramban ini saja (tidak dikirim ke server). Untuk menyimpan di Google Sheets, isi API_URL di config.js. Gunakan cadangan di bawah untuk memindahkan data ke perangkat lain. Data penilaian bersifat sensitif; jangan membagikannya ke pihak yang tidak berwenang.</p>`}
+  <div class="card"><h3>Cadangan (JSON)</h3><p class="note">Salin teks ini dan simpan sebagai berkas.</p>
+    <textarea class="mono" id="bk" readonly>${esc(JSON.stringify(S,null,1))}</textarea>
+    <div class="toolbar" style="margin:10px 0 0"><button class="btn" data-act="copy" data-src="bk">Salin cadangan</button></div></div>
+  <div class="card"><h3>Pulihkan dari cadangan</h3><p class="note">Tempel cadangan JSON. Data saat ini akan diganti.</p>
+    <textarea class="mono" id="rs" placeholder="Tempel JSON cadangan di sini"></textarea>
+    <div class="toolbar" style="margin:10px 0 0"><button class="btn pri" data-act="restore">Pulihkan data</button></div></div>
+  <div class="card"><h3>Rekap untuk spreadsheet (CSV)</h3><p class="note">Salin lalu tempel ke Excel atau Google Sheets.</p>
+    <textarea class="mono" id="csv" readonly>${esc(csvText())}</textarea>
+    <div class="toolbar" style="margin:10px 0 0"><button class="btn" data-act="copy" data-src="csv">Salin CSV</button></div></div>
+  <div class="card"><h3>Atur ulang</h3><p class="note">Menghapus semua auditor dan mengembalikan target ke nilai awal.</p>
+    <button class="btn danger ${armed==="reset"?"armed":""}" data-act="reset">${armed==="reset"?"Klik lagi untuk menghapus semua":"Hapus semua data"}</button></div>`;
+}
+
+/* ---------- render ---------- */
+const TABS=[["asesmen","Asesmen",vAsesmen],["rekap","Rekap",vRekap],["matriks","Matriks target",vMatriks],["rujukan","Rujukan",vRujukan],["data","Data",vData]];
+function gateView(){
+  const note=gateMsg?`<p class="warnline">${esc(gateMsg)}</p>`:"";
+  if(gate==="loading") return `<div class="empty"><p>Memuat data dari Google Sheets…</p></div>`;
+  if(gate==="error") return `<div class="empty"><p>Tidak dapat memuat data.</p>${note}<button class="btn pri" data-act="retry">Coba lagi</button> <button class="btn" data-act="logout">Ganti kata sandi</button></div>`;
+  return `<div class="card" style="max-width:420px;margin:24px auto"><h2>Masuk</h2><p class="note">Masukkan kata sandi yang Anda tulis di Code.gs (Apps Script) untuk membuka data di Google Sheets.</p>
+    <label class="f"><span>Kata sandi</span><input type="password" id="pw" autocomplete="current-password" style="background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:7px 10px;width:100%"></label>${note}
+    <div class="toolbar" style="margin:12px 0 0"><button class="btn pri" data-act="login">Masuk</button></div></div>`;
+}
+function render(){
+  const lo=document.getElementById("logout"); if(lo) lo.hidden=!(REMOTE&&gate==="ready");
+  if(gate!=="ready"){$("#tabs").innerHTML=""; $("#app").innerHTML=gateView(); const pw=document.getElementById("pw"); if(pw) pw.focus(); return}
+  $("#tabs").innerHTML=TABS.map(t=>`<button data-tab="${t[0]}" ${view===t[0]?'aria-current="page"':""}>${t[1]}</button>`).join("");
+  $("#app").innerHTML=TABS.find(t=>t[0]===view)[2]();
+}
+function go(v){view=v;armed=null;render();window.scrollTo(0,0)}
+
+/* ---------- events ---------- */
+document.addEventListener("click",e=>{
+  const tab=e.target.closest("[data-tab]"); if(tab){go(tab.dataset.tab);return}
+  const b=e.target.closest("[data-act]"); if(!b){if(armed){armed=null;render()}return}
+  const act=b.dataset.act, a=cur();
+  if(act==="login"){login();return}
+  if(act==="retry"){boot();return}
+  if(act==="logout"){logout();return}
+  const arm=key=>{if(armed===key){armed=null;return true}armed=key;render();return false};
+  if(act!=="del"&&act!=="reset"&&act!=="resetT") armed=null;
+  if(act==="score"){
+    const k=b.dataset.k,n=+b.dataset.n;
+    if(a.scores[k]===n) delete a.scores[k]; else a.scores[k]=n;
+    markA(a.id);render();
+  }else if(act==="add"){
+    const n={id:uid(),nama:"Auditor baru",nip:"",unit:"",jenjang:JENJANG[1],tanggal:today(),penilai:"",scores:{},plans:{}};
+    S.auditors.push(n);S.selected=n.id;markA(n.id);view="asesmen";render();window.scrollTo(0,0);
+  }else if(act==="del"){
+    if(arm("del"+b.dataset.id)){
+      const did=b.dataset.id;
+      S.auditors=S.auditors.filter(x=>x.id!==did);
+      S.selected=S.auditors[0]?S.auditors[0].id:null;markDel(did);render();toast("Auditor dihapus");
+    }
+  }else if(act==="open"){
+    S.selected=b.dataset.id;persistLocal();go("asesmen");
+  }else if(act==="resetT"){
+    if(arm("resetT")){S.targets=defaultTargets();S.weights={...DEF_WEIGHTS};markT();render();toast("Target dan bobot dikembalikan")}
+  }else if(act==="reset"){
+    if(arm("reset")){S=seed();S.auditors=[];S.selected=null;markReplace();render();toast("Semua data dihapus")}
+  }else if(act==="copy"){
+    const ta=document.getElementById(b.dataset.src);ta.focus();ta.select();
+    let ok=false;
+    try{ok=document.execCommand("copy")}catch(_){}
+    if(!ok&&navigator.clipboard){navigator.clipboard.writeText(ta.value).then(()=>toast("Tersalin"),()=>toast("Pilih teks lalu salin manual"));return}
+    toast(ok?"Tersalin":"Pilih teks lalu salin manual");
+  }else if(act==="restore"){
+    try{
+      const d=JSON.parse(document.getElementById("rs").value);
+      if(!d||!Array.isArray(d.auditors)) throw 0;
+      S=normalize(d);markReplace();render();toast("Data dipulihkan");
+    }catch(_){toast("Format cadangan tidak valid")}
+  }
+});
+document.addEventListener("input",e=>{
+  const t=e.target,a=cur();
+  if(t.dataset.f&&a){
+    if(t.dataset.f==="jenjang") return;
+    a[t.dataset.f]=t.value;markA(a.id);
+    if(t.dataset.f==="nama"){const o=document.querySelector(`#sel option[value="${a.id}"]`);if(o)o.textContent=`${a.nama||"(tanpa nama)"} (${a.jenjang})`}
+  }else if(t.dataset.plan&&a){a.plans[t.dataset.plan]=t.value;markA(a.id)}
+  else if(t.dataset.tk){
+    const v=parseInt(t.value,10);
+    if(v>=1&&v<=5){S.targets[t.dataset.tk][+t.dataset.tj]=v;markT()}
+  }else if(t.dataset.w){
+    const v=parseFloat(t.value);
+    if(isFinite(v)&&v>=0){S.weights[t.dataset.w]=v;markT();
+      const s=sum(CATS.map(c=>S.weights[c]));$("#wsum").textContent=s!==100?`Total bobot ${s}%, seharusnya 100%.`:""}
+  }
+});
+document.addEventListener("keydown",e=>{if(e.key==="Enter"&&e.target.id==="pw")login()});
+document.addEventListener("change",e=>{
+  const t=e.target,a=cur();
+  if(t.id==="sel"){S.selected=t.value;persistLocal();render()}
+  else if(t.dataset.f==="jenjang"&&a){a.jenjang=t.value;markA(a.id);render()}
+});
+boot();
+</script>
+</body>
+</html>
